@@ -15,8 +15,21 @@ class Board:
         self.startfrom = 0
 
     def draw_background(self,c):
+        strBoard = ""
 
-        for i in range(self.rows):
-            for j in range(c,c+200,1):
-                print(self.grid[i][j],end='')
-            print()
+        for row in self.grid:
+            strBoard += ''.join(row[c:c+200]) + '\n'
+        return strBoard
+    
+    def clear_background(self,c):
+        strBoard = ""
+        clearlist = []
+        for x in range(gv.MAX_Y):
+            clearlist.append(' ')
+        for row in self.grid:
+            strBoard += ''.join(clearlist[c:c + 200]) + '\n'
+        return strBoard
+        # for i in range(self.rows):
+        #     for j in range(c,c+200,1):
+        #         print(self.grid[i][j],end='')
+        #     print()
