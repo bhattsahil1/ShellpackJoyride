@@ -11,7 +11,7 @@ import signal
 import datetime
 import numpy as np 
 from getinput import NBInput,keypress,clear
-from colorama import init
+from colorama import init,Fore,Back
 from casechecker import CaseCheck
 
 init()
@@ -22,7 +22,7 @@ surr.create_sky(board.grid)
 surr.create_coins(board.grid)
 c = 0
 surr.create_clouds(board.grid,2,11)
-
+surr.create_firebeam(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
 cases = CaseCheck()
@@ -34,6 +34,8 @@ y = time.time()
 count = 0
 while True:
     # os.system('clear')
+    print(' ')
+    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins)) 
     if(time.time() - y >= 0.1):
       y = time.time()
       c+=1
@@ -79,6 +81,5 @@ while True:
         Din.din_appears(board.grid)
         time.sleep(0.05)
     print(board.draw_background(c))
-    print("Coins: " + str(cases.coins)) 
     print('\033[H')
 

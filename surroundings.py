@@ -10,6 +10,8 @@ class Surroundings:
         self.__ground = Fore.RED + '=' + '\x1b[0m'
         self.__sky = Fore.BLUE + '+' + '\x1b[0m'
         self.__cloud = []
+        self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
+        self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
 
     def create_ground(self,grid):
         for x in range(gv.MAX_Y):
@@ -40,16 +42,27 @@ class Surroundings:
 
     def create_coins(self,grid):
         for i in range(20,25):
-            grid[20][i] = '$'
+            grid[20][i] = self.__coins
         for i in range(50,55):
-            grid[30][i] = '$'
+            grid[30][i] = self.__coins
         for i in range(120,125):
-            grid[25][i] = '$'
-            grid[24][i] = '$'
+            grid[25][i] =  self.__coins
+            grid[24][i] = self.__coins
 
         for i in range(200,205):
-            grid[37][i] = '$'
+            grid[37][i] = self.__coins
 
     
 
-    # def create_firebeam(self,grid):
+    def create_firebeam(self,grid):
+
+        for i in range(10,15):
+            for j in range(40,45):
+                if( i+30 == j):
+                    grid[i][j] = self.__firebeam
+                
+        for i in range(28,33):
+            grid[i][130] = self.__firebeam
+
+        for i in range(250,260):
+            grid[33][i] = self.__firebeam

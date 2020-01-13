@@ -1,4 +1,5 @@
 import os
+from colorama import Fore,Back
 
 class CaseCheck:
 
@@ -20,7 +21,7 @@ class CaseCheck:
 
         for i in range(0,4,1):
             for j in range(0,4,1):
-                if(grid[Din.x+i][Din.y + j] == '$'):
+                if(grid[Din.x+i][Din.y + j] == Fore.YELLOW + '$' + '\x1b[0m'):
                     self.coins+=1
                     grid[Din.x + i][Din.y + j] = ' '
 
