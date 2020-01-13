@@ -13,12 +13,13 @@ class Board:
         self.grid = []
 
         # self.grid = np.array([[' ' for col in range(gv.MAX_Y)]for row in range(rows)])
+        # self.grid = [[' ' for col in range(gv.MAX_Y)]for row in range(rows)]   
+        
         for i in range(self.rows):
             self.new = []
             for j in range(gv.MAX_Y):
                 self.new.append(" ")
             self.grid.append(self.new)
-        # self.grid = [[' ' for col in range(gv.MAX_Y)]for row in range(rows)]   
         self.startfrom = 0
 
     def draw_background(self,c):

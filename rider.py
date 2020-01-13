@@ -2,23 +2,28 @@ from __future__ import print_function
 import sys
 import time
 import os
-from colorama import Back
+import globalvariables as gv 
+from colorama import Back,Fore
+from bullet import Bullet
+
+
+# Note: We use __ after many of the self.__ variables in order to keep them private
+
 
 class Entity:
 
     def __init__(self, x, y, grid):
         self.x = x
         self.y = y
-
-
+ 
 class Rider(Entity):
 
     def __init__(self, x, y, grid):
         Entity.__init__(self, x, y, grid)
-        # self.__figure = [[" ", '_', '0', '_', " "], ['/', "\\", '-', '/', "\\"], [" ", '/', '|', '\\', " "]]
         self.__figure = [['_', '0', '_'], ["|", '-', '|'], ['|', '_', '|']]
-        # USING the __ after self tp ensure the variables are private and cannot be accessed outside
-    
+        self.__bulletlist = []
+        # self.__lives = gv.LIVES
+       
     def initialplace(self,grid):
         for i in range(35,38,1):
             for j in range(0,3,1):
@@ -33,3 +38,33 @@ class Rider(Entity):
         for i in range(self.x,self.x + 3):
             for j in range(self.y,self.y + 3):
                 grid[i][j] = self.__figure[i-self.x][j-self.y]
+
+    def din_move(self,grid,cin,Din):
+
+        #Move to the right
+        if(cin==1):
+            Din.din_vanished(grid)
+            Din.y+=1
+            Din.din_appears(grid)
+
+        #Move to the left
+        if(cin == 2):
+            Din.din_vanished(grid)
+            Din.y-=1
+            Din.din_appears(grid)
+        
+        #Move upwards
+        if(cin == 3):
+            Din.din_vanished(grid)
+            if(Din.x-10 <= 0):
+                Din.x = 1
+            else:
+                Din.x-=10
+            Din.din_appears(grid)
+
+    def shootem(self,Din,grid):
+        self.__bulletlist.append(Bullet(36,Din.y + 4,grid))
+
+    def killemall(self,grid):
+        for shot in self.__bulletlist:
+            shot.bullet_move(grid)

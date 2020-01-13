@@ -30,6 +30,8 @@ def keypress(c):
     elif c == '\x57' or c == '\x77':
         return 3
 
+    elif c == '\x20':
+        return 4
 
 class NBInput:
     '''

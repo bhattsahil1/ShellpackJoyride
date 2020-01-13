@@ -12,9 +12,12 @@ import datetime
 import numpy as np 
 from getinput import NBInput,keypress,clear
 from colorama import init,Fore,Back
+from bullet import Bullet
 from casechecker import CaseCheck
-
 init()
+
+
+
 board = background.Board(gv.MAX_X,gv.MAX_Y)
 surr = surroundings.Surroundings()
 surr.create_ground(board.grid)
@@ -26,22 +29,29 @@ surr.create_firebeam(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
 cases = CaseCheck()
-
+# bullet = Bullet(10,0,board.grid)
 keys = NBInput()
 keys.nbTerm()
 keys.flush()
 y = time.time()
 count = 0
+
+#GAME LOOP
 while True:
-    # os.system('clear')
+
     print(' ')
-    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins)) 
+    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(cases.lives) ) 
+
+
+    #For Screen Movement
     if(time.time() - y >= 0.1):
       y = time.time()
       c+=1
       
     cases.coincollection(board.grid,Din)
     
+
+    #Checking for inputs and performing the required function
     input = ''
     if keys.kbHit():
         input = keys.getCh()
@@ -49,37 +59,35 @@ while True:
     cin = keypress(input)
 
     if cin:
-        if(cin == 1):
-            Din.din_vanished(board.grid)
-            Din.y+=1
-            Din.din_appears(board.grid)
-
-        if(cin == 2):
-            Din.din_vanished(board.grid)
-            Din.y-=1
-            Din.din_appears(board.grid)
-
-        if(cin == 3):
-            Din.din_vanished(board.grid)
-            if(Din.x-10 <= 0):
-                Din.x = 1
-            else:
-                Din.x-=10
-            Din.din_appears(board.grid)
-        if(cin == -1):
+        if cin in range(1,4,1):
+            Din.din_move(board.grid,cin,Din)
+        if cin == -1:
             clear()
             keys.orTerm()
             exit()
+        if cin == 4:
+            # bullet = Bullet(Din.x -1,Din.y+4,board.grid)
+            Din.shootem(Din,board.grid)
+
+    Din.killemall(board.grid)
+    if cases.beamcollision(board.grid,Din) == -1:
+        clear()
+        print("YOU HAVE LOST ALL YOUR LIVES")
+        keys.orTerm()
+        exit()
+
+    #Function to simulate gravity 
+    cases.gravity(board.grid,Din)
+
+
+
     if(Din.y < c):
         Din.din_vanished(board.grid)
         Din.y = c
         Din.din_appears(board.grid)
 
-    if(Din.x != 35):
-        Din.din_vanished(board.grid)
-        Din.x+=1
-        Din.din_appears(board.grid)
-        time.sleep(0.05)
+    
+    #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
     print('\033[H')
 

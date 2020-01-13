@@ -1,0 +1,10 @@
+Implement Firebeam collision and changing lives.
+Implement bullets and shoot() function
+Make variables private in the files
+Implement magnet to attract the rider
+
+Implement Boss enemy
+
+Make the initial print normal(currently glitches sometimes by displaying two lines)
+
+Implement speed boost and shield
