@@ -66,10 +66,14 @@ while True:
             keys.orTerm()
             exit()
         if cin == 4:
-            # bullet = Bullet(Din.x -1,Din.y+4,board.grid)
-            Din.shootem(Din,board.grid)
+            Din.shoot(Din,board.grid)
+            
+    
+    
+    Din.bullethit(board.grid)
 
-    Din.killemall(board.grid)
+
+    
     if cases.beamcollision(board.grid,Din) == -1:
         clear()
         print("YOU HAVE LOST ALL YOUR LIVES")

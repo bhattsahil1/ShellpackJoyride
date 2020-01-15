@@ -3,6 +3,7 @@ import sys
 import time
 import os
 import globalvariables as gv 
+import math
 from colorama import Back,Fore
 from bullet import Bullet
 
@@ -20,7 +21,7 @@ class Rider(Entity):
 
     def __init__(self, x, y, grid):
         Entity.__init__(self, x, y, grid)
-        self.__figure = [['_', '0', '_'], ["|", '-', '|'], ['|', '_', '|']]
+        self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
         self.__bulletlist = []
         # self.__lives = gv.LIVES
        
@@ -62,9 +63,13 @@ class Rider(Entity):
                 Din.x-=10
             Din.din_appears(grid)
 
-    def shootem(self,Din,grid):
-        self.__bulletlist.append(Bullet(36,Din.y + 4,grid))
+    def shoot(self,Din,grid):
+        self.__bulletlist.append(Bullet(Din.x + 1,Din.y + 4,grid))
 
-    def killemall(self,grid):
+    def bullethit(self,grid):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
+            if(math.floor(shot.y - shot.initialy) == 50):
+                shot.bullet_vanished(grid)
+                self.__bulletlist.remove(shot)
+            
