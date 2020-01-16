@@ -73,3 +73,8 @@ class Rider(Entity):
                 shot.bullet_vanished(grid)
                 self.__bulletlist.remove(shot)
             
+    def activate_shield(self,grid):
+        self.__figure = [[Fore.LIGHTRED_EX + '/', '0', '\\' + '\x1b[0m' ], [Fore.LIGHTRED_EX+'|', '-', '|'+'\x1b[0m'], [Fore.LIGHTRED_EX+ '|', '_', '|' +'\x1b[0m']]
+
+    def deactivate_shield(self,grid):
+        self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]

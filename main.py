@@ -35,6 +35,10 @@ keys.nbTerm()
 keys.flush()
 y = time.time()
 count = 0
+print(board.draw_background(c))
+print('\033[H')
+
+t = 0
 
 #GAME LOOP
 while True:
@@ -67,8 +71,12 @@ while True:
             exit()
         if cin == 4:
             Din.shoot(Din,board.grid)
+        if cin == 5:
+            t = time.time()
+            Din.activate_shield(board.grid)
             
-    
+    if(time.time()-t > 10):
+        Din.deactivate_shield(board.grid)
     
     Din.bullethit(board.grid)
 

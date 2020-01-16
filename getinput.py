@@ -29,9 +29,14 @@ def keypress(c):
     # w/W
     elif c == '\x57' or c == '\x77':
         return 3
-
+            
+    # Spacebar
     elif c == '\x20':
         return 4
+    
+    #s/S
+    elif c == '\x53' or c == '\x73':
+        return 5
 
 class NBInput:
     '''
