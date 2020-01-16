@@ -21,8 +21,14 @@ class Bullet():
         grid[self.x][math.floor(self.y)] = self.__bulletfigure
 
     def bullet_move(self,grid):
-        if self.y+0.05 < gv.MAX_Y:
+        if self.y+0.5 < gv.MAX_Y:
             self.bullet_vanished(grid)
-            self.y+=0.05
+            self.y+=2
             self.bullet_appears(grid)
         
+    def bullet_gravity(self,grid):
+        if(self.x < 35):
+            self.bullet_vanished(grid)
+            self.x+=1
+            self.bullet_appears(grid)
+            # time.sleep(0.05)

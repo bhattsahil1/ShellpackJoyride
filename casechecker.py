@@ -23,7 +23,7 @@ class CaseCheck:
             Din.din_vanished(grid)
             Din.x+=1
             Din.din_appears(grid)
-            time.sleep(0.05)
+            # time.sleep(0.05)
 
     def beamcollision(self,grid,Din):
         for i in range(0,4,1):

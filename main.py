@@ -26,6 +26,7 @@ surr.create_coins(board.grid)
 c = 0
 surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
+surr.create_viserion(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
 cases = CaseCheck()
@@ -35,6 +36,8 @@ keys.nbTerm()
 keys.flush()
 y = time.time()
 count = 0
+z = time.time()
+p = time.time()
 print(board.draw_background(c))
 print('\033[H')
 
@@ -51,6 +54,10 @@ while True:
     if(time.time() - y >= 0.1):
       y = time.time()
       c+=1
+
+    if(time.time() - z >= 0.05):
+        z = time.time()
+        cases.gravity(board.grid,Din)
       
     cases.coincollection(board.grid,Din)
     
@@ -77,8 +84,9 @@ while True:
             
     if(time.time()-t > 10):
         Din.deactivate_shield(board.grid)
-    
-    Din.bullethit(board.grid)
+    if(time.time()-p > 0.01):
+        p = time.time()
+        Din.bullethit(board.grid)
 
 
     
@@ -88,8 +96,8 @@ while True:
         keys.orTerm()
         exit()
 
-    #Function to simulate gravity 
-    cases.gravity(board.grid,Din)
+    # Function to simulate gravity 
+    
 
 
 

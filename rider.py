@@ -23,6 +23,7 @@ class Rider(Entity):
         Entity.__init__(self, x, y, grid)
         self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
         self.__bulletlist = []
+        self.__shieldstatus = 0
         # self.__lives = gv.LIVES
        
     def initialplace(self,grid):
@@ -69,12 +70,15 @@ class Rider(Entity):
     def bullethit(self,grid):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
+            shot.bullet_gravity(grid)
             if(math.floor(shot.y - shot.initialy) == 50):
                 shot.bullet_vanished(grid)
                 self.__bulletlist.remove(shot)
             
     def activate_shield(self,grid):
         self.__figure = [[Fore.LIGHTRED_EX + '/', '0', '\\' + '\x1b[0m' ], [Fore.LIGHTRED_EX+'|', '-', '|'+'\x1b[0m'], [Fore.LIGHTRED_EX+ '|', '_', '|' +'\x1b[0m']]
+        self.__shieldstatus = 1
 
     def deactivate_shield(self,grid):
         self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
+        self.__shieldstatus = 0
