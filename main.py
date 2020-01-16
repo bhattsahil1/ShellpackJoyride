@@ -56,19 +56,22 @@ while True:
 
 
     #For Screen Movement
-    if(time.time() - y >= 0.1):
-      y = time.time()
-      if cases.gamespeedup(board.grid,Din) == 1:
-          powercheck = 1
-      if powercheck == 1:
-          c+=3
-      else:
-          c+=1
+    if c < 900:
+        if(time.time() - y >= 0.1):
+            y = time.time()
+            if cases.gamespeedup(board.grid,Din) == 1:
+                powercheck = 1
+            if powercheck == 1:
+                c+=3
+            else:
+                c+=1
 
+    #Function to simulate gravity
     if(time.time() - z >= 0.05):
         z = time.time()
         cases.gravity(board.grid,Din)
       
+    #Function to collect coins on the way during the game
     cases.coincollection(board.grid,Din)
     
 
@@ -106,16 +109,8 @@ while True:
         keys.orTerm()
         exit()
 
-    # Function to simulate gravity 
     
-
-
-
-    if(Din.y < c):
-        Din.din_vanished(board.grid)
-        Din.y = c
-        Din.din_appears(board.grid)
-
+    cases.boundaryconstraints(board.grid,c,Din)
     
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))

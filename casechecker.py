@@ -41,6 +41,16 @@ class CaseCheck:
                 if(grid[Din.x+i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
                     return 1
         return -1
+    
+    def boundaryconstraints(self,grid,c,Din):
+        if(Din.y < c):
+            Din.din_vanished(grid)
+            Din.y = c
+            Din.din_appears(grid)
+        if(Din.y >= c + 147):
+            Din.din_vanished(grid)
+            Din.y = c + 147
+            Din.din_appears(grid)
         
          
 
