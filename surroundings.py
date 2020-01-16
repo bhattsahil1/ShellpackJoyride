@@ -43,35 +43,37 @@ class Surroundings:
             d += 37 + random.randint(10,50)
 
     def create_coins(self,grid):
-        for i in range(20,25):
-            grid[20][i] = self.__coins
-        for i in range(50,55):
-            grid[30][i] = self.__coins
-        for i in range(120,125):
-            grid[25][i] =  self.__coins
-            grid[24][i] = self.__coins
-
-        for i in range(200,205):
-            grid[37][i] = self.__coins
+        for x in range(20):
+            r = random.randint(1,900)
+            xais = random.randint(10,34)
+            for i in range(r,r+5):
+                grid[xais][i] = self.__coins
 
     def create_powerups(self,grid):
 
-        grid[10][40] = self.__powerup
-        grid[30][70] = self.__powerup
-        grid[35][300] = self.__powerup
+        for x in range(10):
+            r = random.randint(3,34)
+            yais = random.randint(5,900)
+            grid[r][yais] = self.__powerup
 
     def create_firebeam(self,grid):
 
-        for i in range(10,15):
-            for j in range(40,45):
-                if( i+30 == j):
-                    grid[i][j] = self.__firebeam
-                
-        for i in range(28,33):
-            grid[i][130] = self.__firebeam
-
-        for i in range(250,260):
-            grid[33][i] = self.__firebeam
+        for x in range(4):
+            r = random.randint(8,28)
+            yais = random.randint(10,900)
+            diff = yais - r
+            for i in range(r,r+5):
+                grid[i][i+diff] = self.__firebeam
+            
+            r = random.randint(10,29)
+            yais = random.randint(10,900)
+            for i in range(r,r+5):
+                grid[i][yais] = self.__firebeam
+            
+            r = random.randint(10,29)
+            yais = random.randint(10,900)
+            for i in range(yais,yais+10):
+                grid[r][i] = self.__firebeam
 
     def create_viserion(self,grid):
 

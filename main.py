@@ -13,18 +13,20 @@ import datetime
 import numpy as np 
 from getinput import NBInput,keypress,clear
 from colorama import init,Fore,Back
+from surroundings import Surroundings
 from bullet import Bullet
 from casechecker import CaseCheck
+from gameinit import GameInit
 init()
 
 
 
 board = background.Board(gv.MAX_X,gv.MAX_Y)
-surr = surroundings.Surroundings()
+c =0
+surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
 surr.create_coins(board.grid)
-c = 0
 surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)

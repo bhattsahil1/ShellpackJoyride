@@ -21,7 +21,7 @@ class Bullet():
         grid[self.x][math.floor(self.y)] = self.__bulletfigure
 
     def bullet_move(self,grid):
-        if self.y+0.5 < gv.MAX_Y:
+        if self.y+2 < gv.MAX_Y:
             self.bullet_vanished(grid)
             self.y+=2
             self.bullet_appears(grid)
