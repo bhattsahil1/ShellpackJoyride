@@ -7,6 +7,7 @@ import surroundings
 import rider 
 import getinput
 import time
+import math
 import signal
 import datetime
 import numpy as np 
@@ -26,6 +27,7 @@ surr.create_coins(board.grid)
 c = 0
 surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
+surr.create_powerups(board.grid)
 surr.create_viserion(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
@@ -41,19 +43,25 @@ p = time.time()
 print(board.draw_background(c))
 print('\033[H')
 
+powercheck =0 
 t = 0
 
 #GAME LOOP
 while True:
 
     print(' ')
-    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(cases.lives) ) 
+    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) ) 
 
 
     #For Screen Movement
     if(time.time() - y >= 0.1):
       y = time.time()
-      c+=1
+      if cases.gamespeedup(board.grid,Din) == 1:
+          powercheck = 1
+      if powercheck == 1:
+          c+=3
+      else:
+          c+=1
 
     if(time.time() - z >= 0.05):
         z = time.time()

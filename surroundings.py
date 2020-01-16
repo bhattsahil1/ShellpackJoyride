@@ -13,6 +13,7 @@ class Surroundings:
         self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
         self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
         self.__dragon = []
+        self.__powerup = Back.MAGENTA + "P" + '\x1b[0m'
 
     def create_ground(self,grid):
         for x in range(gv.MAX_Y):
@@ -53,7 +54,11 @@ class Surroundings:
         for i in range(200,205):
             grid[37][i] = self.__coins
 
-    
+    def create_powerups(self,grid):
+
+        grid[10][40] = self.__powerup
+        grid[30][70] = self.__powerup
+        grid[35][300] = self.__powerup
 
     def create_firebeam(self,grid):
 

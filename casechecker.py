@@ -29,11 +29,19 @@ class CaseCheck:
         for i in range(0,4,1):
             for j in range(0,4,1):
                 if(grid[Din.x+i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'):
-                    self.lives-=1
+                    self.lives-=0.2
                     grid[Din.x + i][Din.y + j] = ' '
                     if self.lives == 0:
                         return -1
         return 1
+    
+    def gamespeedup(self,grid,Din):
+        for i in range(0,4,1):
+            for j in range(0,4,1):
+                if(grid[Din.x+i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
+                    return 1
+        return -1
+        
          
 
 
