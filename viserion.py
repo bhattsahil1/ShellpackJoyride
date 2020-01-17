@@ -2,13 +2,15 @@ from rider import Entity
 import os
 from colorama import Back,Fore
 import globalvariables as gv
+from iceballs import Ice
 
-959,22
+# 959,22
 class Viserion(Entity):
 
     def __init__(self,x,y,grid):
         Entity.__init__(self, x, y, grid)
         self.__dragon = []
+        self.__iceballs = []
     
     def create_viserion(self,grid):
 
@@ -56,5 +58,17 @@ class Viserion(Entity):
         if self.y <=1 :
             self.y = 2
         self.dragon_appears(grid)
+    
+    def dragon_appu(self,grid,Din):
+        self.__iceballs.append(Ice(Din.x,957,grid))
+        # print(self.__iceballs)
+        
+
+    def dragon_attack(self,grid,Din):
+        for shot in self.__iceballs:
+            shot.ice_move(grid)
+            if(shot.y <=902):
+                shot.ice_vanished(grid)
+                self.__iceballs.remove(shot)
 
 

@@ -21,7 +21,6 @@ from viserion import Viserion
 init()
 
 
-
 board = background.Board(gv.MAX_X,gv.MAX_Y)
 c =0
 surr = Surroundings()
@@ -51,8 +50,12 @@ print('\033[H')
 checktime = 0
 powercheck =0 
 t = 0
+f = 0
+ghk = 0
+fgh = 0
 
 #GAME LOOP
+c = 800
 while True:
 
     print(' ')
@@ -118,6 +121,15 @@ while True:
 
     if c>=900:
         drogo.dragon_move(board.grid,Din)
+        # if np.mod(time.time(),5) == 0:
+        # if ghk == 0:
+        if time.time() - ghk >= 1 :
+            drogo.dragon_appu(board.grid,Din)
+            ghk = time.time()
+        if time.time() - fgh >= 0.1:
+            drogo.dragon_attack(board.grid,Din)
+            fgh = time.time()
+            # ghk = 1 
     
     cases.boundaryconstraints(board.grid,c,Din)
     cases.magnet(board.grid,Din)
