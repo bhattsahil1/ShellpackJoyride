@@ -14,7 +14,7 @@ class Viserion(Entity):
 
         with open("dragon.txt") as obj:
             for line in obj:
-                self.__dragon.append(line.strip('\n'))
+                self.__dragon.append(Fore.LIGHTGREEN_EX + line.strip('\n') + '\x1b[0m')
 
         e = self.x
         f = self.y

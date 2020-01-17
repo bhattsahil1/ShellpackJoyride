@@ -75,4 +75,9 @@ class Surroundings:
             for i in range(yais,yais+15):
                 grid[r][i] = self.__firebeam
 
-    
+    def create_magnet(self,grid):
+
+        for x in range(3):
+            yais = random.randint(100,700)
+            for y in range(yais,yais+10):
+                grid[10][y] = 'M'

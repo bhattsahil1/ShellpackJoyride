@@ -2,6 +2,7 @@ import os
 from colorama import Fore,Back
 import time
 import globalvariables as gv
+import math
 
 class CaseCheck:
 
@@ -31,14 +32,14 @@ class CaseCheck:
                 if(grid[Din.x + i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'):
                     self.lives-=0.2
                     grid[Din.x + i][Din.y + j] = ' '
-                    if self.lives == 0:
+                    if math.floor(self.lives) == 0:
                         return -1
         return 1
     
     def gamespeedup(self,grid,Din):
         for i in range(0,5,1):
             for j in range(0,5,1):
-                if(grid[Din.x+i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
+                if(grid[Din.x + i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
                     grid[Din.x + i][Din.y + j] = ' '
                     return 1
         return -1
@@ -52,6 +53,17 @@ class CaseCheck:
             Din.din_vanished(grid)
             Din.y = c + 147
             Din.din_appears(grid)
+    
+    def magnet(self,grid,Din):
+        if grid[10][Din.y+3] == 'M' or grid[10][Din.y+2] == 'M' or grid[10][Din.y+1] == 'M' or grid[10][Din.y] == 'M':
+            if Din.x >16: 
+                Din.din_vanished(grid)
+                Din.x-=5
+                Din.din_appears(grid)
+            if Din.x < 6:
+                Din.din_vanished(grid)
+                Din.x+=1
+                Din.din_appears(grid)
         
          
 

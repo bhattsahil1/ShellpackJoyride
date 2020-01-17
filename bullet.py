@@ -51,3 +51,7 @@ class Bullet():
             for j in range(2):
                 if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m':
                     grid[self.x + i][self.y + j] = ' '
+                
+                if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Fore.YELLOW + '$' + '\x1b[0m':
+                    grid[self.x+i][self.y+j] = Fore.YELLOW + '$' + '\x1b[0m'
+                

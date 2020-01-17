@@ -28,9 +28,10 @@ surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
 surr.create_coins(board.grid)
-surr.create_clouds(board.grid,2,11)
+# surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
+surr.create_magnet(board.grid)
 # surr.create_viserion(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
@@ -47,7 +48,7 @@ z = time.time()
 p = time.time()
 print(board.draw_background(c))
 print('\033[H')
-
+checktime = 0
 powercheck =0 
 t = 0
 
@@ -95,11 +96,14 @@ while True:
         if cin == 4:
             Din.shoot(Din,board.grid)
         if cin == 5:
-            t = time.time()
-            Din.activate_shield(board.grid)
-            
+            if time.time() - checktime > 40:
+                t = time.time()
+                Din.activate_shield(board.grid)
+                checktime = time.time()
+                
     if(time.time()-t > 10):
         Din.deactivate_shield(board.grid)
+
     if(time.time()-p > 0.01):
         p = time.time()
         Din.bullethit(board.grid)
@@ -108,7 +112,7 @@ while True:
     
     if cases.beamcollision(board.grid,Din) == -1:
         clear()
-        print("YOU HAVE LOST ALL YOUR LIVES")
+        print("LOST ALL YOUR LIVES YOU HAVE !")
         keys.orTerm()
         exit()
 
@@ -116,6 +120,7 @@ while True:
         drogo.dragon_move(board.grid,Din)
     
     cases.boundaryconstraints(board.grid,c,Din)
+    cases.magnet(board.grid,Din)
     
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
