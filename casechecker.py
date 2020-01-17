@@ -12,11 +12,11 @@ class CaseCheck:
         self.lives = gv.LIVES
 
     def coincollection(self,grid,Din):
-        for i in range(0,4,1):
-            for j in range(0,4,1):
-                if(grid[Din.x+i][Din.y + j] == Fore.YELLOW + '$' + '\x1b[0m'):
+        for i in range(5):
+            for j in range(5):
+                if grid[Din.x+i][Din.y+j] == Fore.YELLOW + '$' + '\x1b[0m':
                     self.coins+=1
-                    grid[Din.x + i][Din.y + j] = ' '
+                    grid[Din.x+i][Din.y + j] = ' '
 
     def gravity(self,grid,Din):
         if(Din.x != 35):
@@ -26,9 +26,9 @@ class CaseCheck:
             # time.sleep(0.05)
 
     def beamcollision(self,grid,Din):
-        for i in range(0,4,1):
-            for j in range(0,4,1):
-                if(grid[Din.x+i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'):
+        for i in range(0,5,1):
+            for j in range(0,5,1):
+                if(grid[Din.x + i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'):
                     self.lives-=0.2
                     grid[Din.x + i][Din.y + j] = ' '
                     if self.lives == 0:
@@ -36,9 +36,10 @@ class CaseCheck:
         return 1
     
     def gamespeedup(self,grid,Din):
-        for i in range(0,4,1):
-            for j in range(0,4,1):
+        for i in range(0,5,1):
+            for j in range(0,5,1):
                 if(grid[Din.x+i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
+                    grid[Din.x + i][Din.y + j] == ' '
                     return 1
         return -1
     

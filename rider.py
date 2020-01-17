@@ -70,11 +70,14 @@ class Rider(Entity):
     def bullethit(self,grid):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
-            if shot.haveigoneup >= 0 and shot.haveigoneup <= 9:
+            if shot.haveigoneup >= 0 and shot.haveigoneup <= 19:
                 shot.bullet_start(grid)
-            if shot.haveigoneup >= 10:
+            if shot.haveigoneup >= 19 or shot.x <= 1:
                 shot.bullet_gravity(grid) 
             if(math.floor(shot.y - shot.initialy) == 150):
+                shot.bullet_vanished(grid)
+                self.__bulletlist.remove(shot)
+            if shot.x == 37:
                 shot.bullet_vanished(grid)
                 self.__bulletlist.remove(shot)
             
