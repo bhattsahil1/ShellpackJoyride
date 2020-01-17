@@ -12,7 +12,7 @@ class Surroundings:
         self.__cloud = []
         self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
         self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
-        self.__dragon = []
+        # self.__dragon = []
         self.__powerup = Back.MAGENTA + "P" + '\x1b[0m'
 
     def create_ground(self,grid):
@@ -46,7 +46,7 @@ class Surroundings:
         for x in range(20):
             r = random.randint(1,900)
             xais = random.randint(10,34)
-            for i in range(r,r+5):
+            for i in range(r,r+10):
                 grid[xais][i] = self.__coins
 
     def create_powerups(self,grid):
@@ -62,32 +62,17 @@ class Surroundings:
             r = random.randint(8,28)
             yais = random.randint(10,900)
             diff = yais - r
-            for i in range(r,r+5):
+            for i in range(r,r+8):
                 grid[i][i+diff] = self.__firebeam
             
             r = random.randint(10,29)
             yais = random.randint(10,900)
-            for i in range(r,r+5):
+            for i in range(r,r+7):
                 grid[i][yais] = self.__firebeam
             
             r = random.randint(10,29)
             yais = random.randint(10,900)
-            for i in range(yais,yais+10):
+            for i in range(yais,yais+15):
                 grid[r][i] = self.__firebeam
 
-    def create_viserion(self,grid):
-
-        with open("dragon.txt") as obj:
-            for line in obj:
-                self.__dragon.append(line.strip('\n'))
-
-        e = 959
-        f = 22 
-        c = f
-        d = e 
-        for i in range(15):
-            for j in range(39):
-                grid[c][d] = self.__dragon[i][j]
-                d+=1
-            d=e
-            c+=1
+    

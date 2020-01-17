@@ -44,3 +44,10 @@ class Bullet():
             self.x+=1
             self.bullet_appears(grid)
             # time.sleep(0.05)
+    
+    def bullet_strike(self,grid):
+
+        for i in range(2):
+            for j in range(2):
+                if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m':
+                    grid[self.x + i][self.y + j] = ' '

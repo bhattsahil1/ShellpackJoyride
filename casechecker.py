@@ -39,7 +39,7 @@ class CaseCheck:
         for i in range(0,5,1):
             for j in range(0,5,1):
                 if(grid[Din.x+i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
-                    grid[Din.x + i][Din.y + j] == ' '
+                    grid[Din.x + i][Din.y + j] = ' '
                     return 1
         return -1
     

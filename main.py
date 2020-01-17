@@ -17,6 +17,7 @@ from surroundings import Surroundings
 from bullet import Bullet
 from casechecker import CaseCheck
 from gameinit import GameInit
+from viserion import Viserion
 init()
 
 
@@ -30,9 +31,11 @@ surr.create_coins(board.grid)
 surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
-surr.create_viserion(board.grid)
+# surr.create_viserion(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
+drogo = Viserion(959,22,board.grid)
+drogo.create_viserion(board.grid)
 cases = CaseCheck()
 # bullet = Bullet(10,0,board.grid)
 keys = NBInput()
@@ -109,6 +112,8 @@ while True:
         keys.orTerm()
         exit()
 
+    if c>=900:
+        drogo.dragon_move(board.grid,Din)
     
     cases.boundaryconstraints(board.grid,c,Din)
     
