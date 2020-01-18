@@ -21,11 +21,7 @@ class Ice():
         grid[self.x][self.y] = self.__icefigure
 
     def ice_move(self,grid):
-        # print("Maroon5")
         self.ice_vanished(grid)
         self.y-=5
-        # print(self.x)
-        # print(self.y)
-        # print("Adam Levine")
         self.ice_appears(grid)
                 

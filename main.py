@@ -27,17 +27,14 @@ surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
 surr.create_coins(board.grid)
-# surr.create_clouds(board.grid,2,11)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
 surr.create_magnet(board.grid)
-# surr.create_viserion(board.grid)
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
 drogo = Viserion(959,22,board.grid)
 drogo.create_viserion(board.grid)
 cases = CaseCheck()
-# bullet = Bullet(10,0,board.grid)
 keys = NBInput()
 keys.nbTerm()
 keys.flush()
@@ -51,11 +48,10 @@ checktime = 0
 powercheck =0 
 t = 0
 f = 0
-ghk = 0
-fgh = 0
+dragonballreload = 0
+dragonshootdelay = 0
 
 #GAME LOOP
-c = 800
 while True:
 
     print(' ')
@@ -99,7 +95,7 @@ while True:
         if cin == 4:
             Din.shoot(Din,board.grid)
         if cin == 5:
-            if time.time() - checktime > 40:
+            if time.time() - checktime > 30:
                 t = time.time()
                 Din.activate_shield(board.grid)
                 checktime = time.time()
@@ -121,15 +117,12 @@ while True:
 
     if c>=900:
         drogo.dragon_move(board.grid,Din)
-        # if np.mod(time.time(),5) == 0:
-        # if ghk == 0:
-        if time.time() - ghk >= 1 :
+        if time.time() - dragonballreload >= 1 :
             drogo.dragon_appu(board.grid,Din)
-            ghk = time.time()
-        if time.time() - fgh >= 0.1:
+            dragonballreload = time.time()
+        if time.time() - dragonshootdelay >= 0.1:
             drogo.dragon_attack(board.grid,Din)
-            fgh = time.time()
-            # ghk = 1 
+            dragonshootdelay = time.time()
     
     cases.boundaryconstraints(board.grid,c,Din)
     cases.magnet(board.grid,Din)

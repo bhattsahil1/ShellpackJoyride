@@ -9,10 +9,8 @@ class Surroundings:
 
         self.__ground = Fore.RED + '=' + '\x1b[0m'
         self.__sky = Fore.BLUE + '+' + '\x1b[0m'
-        self.__cloud = []
         self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
         self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
-        # self.__dragon = []
         self.__powerup = Back.MAGENTA + "P" + '\x1b[0m'
 
     def create_ground(self,grid):
@@ -23,24 +21,7 @@ class Surroundings:
     def create_sky(self,grid):
         for x in range(gv.MAX_Y):
             grid[0][x] = self.__sky
-        
 
-    def create_clouds(self,grid,c,d):
-        with open("cloud3.txt") as obj:
-            for line in obj:
-                self.__cloud.append(line.strip('\n'))
-        
-        while(d<800):
-            e = d
-            f = c
-            for i in range(4):
-                for j in range(16):
-                    grid[c][d] = self.__cloud[i][j]
-                    d+=1
-                d=e
-                c+=1
-            c = f + random.randint(0,2)
-            d += 37 + random.randint(10,50)
 
     def create_coins(self,grid):
         for x in range(20):

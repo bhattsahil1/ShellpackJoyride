@@ -29,7 +29,7 @@ class CaseCheck:
     def beamcollision(self,grid,Din):
         for i in range(0,5,1):
             for j in range(0,5,1):
-                if(grid[Din.x + i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'):
+                if(grid[Din.x + i][Din.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m' and getattr(Din,'shieldstatus') == 0):
                     self.lives-=0.2
                     grid[Din.x + i][Din.y + j] = ' '
                     if math.floor(self.lives) == 0:

@@ -4,54 +4,53 @@ from colorama import Back,Fore
 import globalvariables as gv
 from iceballs import Ice
 
-# 959,22
 class Viserion(Entity):
 
     def __init__(self,x,y,grid):
         Entity.__init__(self, x, y, grid)
         self.__dragon = []
         self.__iceballs = []
+        self.__blanklist = []
     
-    def create_viserion(self,grid):
-
-        with open("dragon.txt") as obj:
-            for line in obj:
-                self.__dragon.append(Fore.LIGHTGREEN_EX + line.strip('\n') + '\x1b[0m')
-
+    def positionalfunction(self,grid,somelist):
         e = self.x
         f = self.y
         c = f
         d = e 
         for i in range(15):
             for j in range(39):
-                grid[c][d] = self.__dragon[i][j]
+                grid[c][d] = somelist[i][j]
                 d+=1
             d=e
             c+=1
+ 
+    def create_viserion(self,grid):
+
+        with open("dragon.txt") as obj:
+            for line in obj:
+                self.__dragon.append(Fore.LIGHTGREEN_EX + line.strip('\n') + '\x1b[0m')
+        
+        for i in range(15):
+            newlist = []
+            for j in range(39):
+                newlist.append(' ')
+            self.__blanklist.append(newlist)
+
+
+        self.positionalfunction(grid,self.__dragon)
+
+
 
     def dragon_vanished(self,grid):
-        e = self.x 
-        f = self.y 
-        c = f
-        d = e 
-        for i in range(15):
-            for j in range(39):
-                grid[c][d] = ' '
-                d+=1
-            d=e
-            c+=1
+        self.positionalfunction(grid,self.__blanklist)
+
+
+
     def dragon_appears(self,grid):
-        e = self.x 
-        f = self.y 
-        c = f
-        d = e
-        for i in range(15):
-            for j in range(39):
-                grid[c][d] = self.__dragon[i][j]
-                d+=1
-            d=e
-            c+=1
-    
+        self.positionalfunction(grid,self.__dragon)
+
+
+
     def dragon_move(self,grid,Din):
         self.dragon_vanished(grid)
         self.y = 22 - (35 - Din.x)
