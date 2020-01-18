@@ -32,11 +32,11 @@ def keypress(c):
             
     # Spacebar
     elif c == '\x20':
-        return 4
+        return 5
     
     #s/S
     elif c == '\x53' or c == '\x73':
-        return 5
+        return 4
 
 class NBInput:
     '''

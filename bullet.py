@@ -1,26 +1,26 @@
 import os
 import globalvariables as gv
 import math
-# from rider import Entity
 import time
 from colorama import Fore,Back
 
+
+#Creating a bullet class that will be used by both the Mandalorian as well as Viserion(the enemy dragon)
 class Bullet():
 
     def __init__(self,x,y,grid):
-        # Entity.__init__(self, x, y, grid)
         self.x = x
         self.y = y
         self.initialy = y
         self.initialx = x
         self.haveigoneup = 0
-        self.__bulletfigure = Fore.LIGHTYELLOW_EX + 'o' + '\x1b[0m'
+        self.bulletfigure = Fore.LIGHTYELLOW_EX + 'o' + '\x1b[0m'
 
     def bullet_vanished(self,grid):
         grid[self.x][math.floor(self.y)] = ' '
 
     def bullet_appears(self,grid):
-        grid[self.x][math.floor(self.y)] = self.__bulletfigure
+        grid[self.x][math.floor(self.y)] = self.bulletfigure
 
     def bullet_move(self,grid):
         if self.y+2 < gv.MAX_Y:
@@ -35,16 +35,17 @@ class Bullet():
             self.x-=1   
             self.haveigoneup+=1
             self.bullet_appears(grid)
-        # print(self.haveigoneup)
 
+    # A function to simulate gravity in the bullet...enables parabolic trajectory
     def bullet_gravity(self,grid):
         
         if self.x < 37:
             self.bullet_vanished(grid)
             self.x+=1
             self.bullet_appears(grid)
-            # time.sleep(0.05)
     
+
+    # A function to check whether the bullet strikes anything or not
     def bullet_strike(self,grid):
 
         for i in range(2):
@@ -55,3 +56,15 @@ class Bullet():
                 if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Fore.YELLOW + '$' + '\x1b[0m':
                     grid[self.x+i][self.y+j-1] = Fore.YELLOW + '$' + '\x1b[0m'
                 
+
+class Ice(Bullet):
+
+    def __init__(self,x,y,grid):
+        Bullet.__init__(self, x, y, grid)
+        self.bulletfigure = Back.CYAN + 'O' + '\x1b[0m'
+
+    def ice_move(self,grid):
+        self.bullet_vanished(grid)
+        if self.y > 10:
+            self.y-=5
+        self.bullet_appears(grid)

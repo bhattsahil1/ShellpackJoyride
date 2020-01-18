@@ -2,7 +2,7 @@ from rider import Entity
 import os
 from colorama import Back,Fore
 import globalvariables as gv
-from iceballs import Ice
+from bullet import Ice
 
 class Viserion(Entity):
 
@@ -67,7 +67,7 @@ class Viserion(Entity):
         for shot in self.__iceballs:
             shot.ice_move(grid)
             if(shot.y <=902):
-                shot.ice_vanished(grid)
+                shot.bullet_vanished(grid)
                 self.__iceballs.remove(shot)
 
 

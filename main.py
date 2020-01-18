@@ -20,9 +20,11 @@ from gameinit import GameInit
 from viserion import Viserion
 init()
 
-
+#Setting up the board
 board = background.Board(gv.MAX_X,gv.MAX_Y)
 c =0
+
+#Setting the surroundings for the game
 surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
@@ -30,20 +32,28 @@ surr.create_coins(board.grid)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
 surr.create_magnet(board.grid)
+
+#Setting up the Mandalorian and Viserion
 Din = rider.Rider(35, 0, 1)
 Din.initialplace(board.grid)
+
 drogo = Viserion(959,22,board.grid)
 drogo.create_viserion(board.grid)
+
+#Initializing variables that will be used across the game loop
 cases = CaseCheck()
 keys = NBInput()
 keys.nbTerm()
 keys.flush()
+
 y = time.time()
 count = 0
 z = time.time()
 p = time.time()
+
 print(board.draw_background(c))
 print('\033[H')
+
 checktime = 0
 powercheck =0 
 t = 0
@@ -51,9 +61,11 @@ f = 0
 dragonballreload = 0
 dragonshootdelay = 0
 
+
 #GAME LOOP
 while True:
 
+    #Preparing the top bar for displaying scores,lives,time left etc.
     print(' ')
     print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) ) 
 
@@ -99,22 +111,26 @@ while True:
                 t = time.time()
                 Din.activate_shield(board.grid)
                 checktime = time.time()
-                
+
+
+    #Deactivating shield after 10s        
     if(time.time()-t > 10):
         Din.deactivate_shield(board.grid)
 
+    #Constantly firing bullets that are appended to the Mando's bulletlist
     if(time.time()-p > 0.01):
         p = time.time()
         Din.bullethit(board.grid)
 
 
-    
+    #Exiting the game in case all lives are lost
     if cases.beamcollision(board.grid,Din) == -1:
         clear()
         print("LOST ALL YOUR LIVES YOU HAVE !")
         keys.orTerm()
         exit()
 
+    #The Viserion Final Fight section !
     if c>=900:
         drogo.dragon_move(board.grid,Din)
         if time.time() - dragonballreload >= 1 :
@@ -124,6 +140,7 @@ while True:
             drogo.dragon_attack(board.grid,Din)
             dragonshootdelay = time.time()
     
+    #Obeying boundary constraints and simulating magnets present along the way
     cases.boundaryconstraints(board.grid,c,Din)
     cases.magnet(board.grid,Din)
     
