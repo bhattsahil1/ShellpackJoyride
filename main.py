@@ -19,6 +19,11 @@ from bullet import Bullet
 from casechecker import CaseCheck
 from gameinit import GameInit
 from viserion import Viserion
+import printfunctions
+
+#remove this later
+import pygame
+
 init()
 
 #Setting up the board
@@ -52,8 +57,7 @@ count = 0
 z = time.time()
 p = time.time()
 
-print(board.draw_background(c))
-print('\033[H')
+
 
 checktime = 0
 powercheck =0 
@@ -62,13 +66,23 @@ f = 0
 dragonballreload = 0
 dragonshootdelay = 0
 
-# subprocess.Popen(['aplay', 'theme.mp3'])
+display = printfunctions.PrintMe
+display.title()
+#remove this later
+pygame.init()
+pygame.mixer.music.load('theme.mp3')
+pygame.mixer.music.play(-1)
 
+os.system('clear')
+print(board.draw_background(c))
+print('\033[H')
+
+print(' ')
 #GAME LOOP
 while True:
 
     #Preparing the top bar for displaying scores,lives,time left etc.
-    print(' ')
+    
     print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
 
 
@@ -129,15 +143,16 @@ while True:
     #Exiting the game in case all lives are lost
     if math.ceil(cases.lives) == 0:
         clear()
-        print("LOST ALL YOUR LIVES YOU HAVE !")
+        display.losingscenario()
         keys.orTerm()
         exit()
 
     if math.ceil(drogo.lives) == 0:
         clear()
-        print("WON YOU HAVE !")
+        display.winningscenario()
         keys.orTerm()
         exit()
+
 
     #The Viserion Final Fight section !
     if c>=900:
@@ -153,6 +168,7 @@ while True:
     #Obeying boundary constraints and simulating magnets present along the way
     cases.boundaryconstraints(board.grid,c,Din)
     cases.magnet(board.grid,Din)
+    cases.beamcollision(board.grid,Din)
     
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
