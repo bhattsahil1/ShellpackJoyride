@@ -55,6 +55,14 @@ class Bullet():
                 
                 if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Fore.YELLOW + '$' + '\x1b[0m':
                     grid[self.x+i][self.y+j-1] = Fore.YELLOW + '$' + '\x1b[0m'
+
+    def enemykill(self,grid,drogo):
+
+        for j in range(10):
+            if self.x == drogo.y + j:
+                for i in range(8):
+                    if self.y == drogo.x + i:
+                        drogo.lives-=0.01 
                 
 
 class Ice(Bullet):

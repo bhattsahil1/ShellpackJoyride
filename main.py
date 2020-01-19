@@ -12,6 +12,7 @@ import signal
 import datetime
 import numpy as np 
 from getinput import NBInput,keypress,clear
+import subprocess
 from colorama import init,Fore,Back
 from surroundings import Surroundings
 from bullet import Bullet
@@ -61,13 +62,14 @@ f = 0
 dragonballreload = 0
 dragonshootdelay = 0
 
+# subprocess.Popen(['aplay', 'theme.mp3'])
 
 #GAME LOOP
 while True:
 
     #Preparing the top bar for displaying scores,lives,time left etc.
     print(' ')
-    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) ) 
+    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
 
 
     #For Screen Movement
@@ -120,13 +122,20 @@ while True:
     #Constantly firing bullets that are appended to the Mando's bulletlist
     if(time.time()-p > 0.01):
         p = time.time()
-        Din.bullethit(board.grid)
+        Din.bullethit(board.grid,drogo)
+
 
 
     #Exiting the game in case all lives are lost
-    if cases.beamcollision(board.grid,Din) == -1:
+    if math.ceil(cases.lives) == 0:
         clear()
         print("LOST ALL YOUR LIVES YOU HAVE !")
+        keys.orTerm()
+        exit()
+
+    if math.ceil(drogo.lives) == 0:
+        clear()
+        print("WON YOU HAVE !")
         keys.orTerm()
         exit()
 
@@ -137,7 +146,8 @@ while True:
             drogo.dragon_appu(board.grid,Din)
             dragonballreload = time.time()
         if time.time() - dragonshootdelay >= 0.1:
-            drogo.dragon_attack(board.grid,Din)
+            if drogo.dragon_attack(board.grid,Din) == 1:
+                cases.lives -=1
             dragonshootdelay = time.time()
     
     #Obeying boundary constraints and simulating magnets present along the way

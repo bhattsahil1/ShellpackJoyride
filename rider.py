@@ -67,10 +67,11 @@ class Rider(Entity):
     def shoot(self,Din,grid):
         self.__bulletlist.append(Bullet(Din.x + 1,Din.y + 4,grid))
 
-    def bullethit(self,grid):
+    def bullethit(self,grid,drogo):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
             shot.bullet_strike(grid)
+            shot.enemykill(grid,drogo)
             if shot.haveigoneup >= 0 and shot.haveigoneup <= 19:
                 shot.bullet_start(grid)
             if shot.haveigoneup >= 19 or shot.x <= 1:

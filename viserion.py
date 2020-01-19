@@ -10,6 +10,7 @@ class Viserion(Entity):
         Entity.__init__(self, x, y, grid)
         self.__dragon = []
         self.__iceballs = []
+        self.lives = 5
         self.__blanklist = []
     
     def positionalfunction(self,grid,somelist):
@@ -69,5 +70,11 @@ class Viserion(Entity):
             if(shot.y <=902):
                 shot.bullet_vanished(grid)
                 self.__iceballs.remove(shot)
+            for i in range(5):
+                for j in range(5):
+                    if shot.x == Din.x + i and shot.y == Din.y + j:
+                        return 1
+        return -1
+        
 
 

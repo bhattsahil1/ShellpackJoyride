@@ -64,7 +64,5 @@ class CaseCheck:
                 Din.x+=1
                 Din.din_appears(grid)
         
-         
-
 
         
