@@ -10,8 +10,9 @@ class Surroundings:
         self.__ground = Fore.RED + '=' + '\x1b[0m'
         self.__sky = Fore.BLUE + '+' + '\x1b[0m'
         self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
-        self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
+        # self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
         self.__powerup = Back.MAGENTA + "P" + '\x1b[0m'
+        self.coindict = {}
 
     def create_ground(self,grid):
         for x in range(gv.MAX_Y):
@@ -28,7 +29,9 @@ class Surroundings:
             r = random.randint(1,900)
             xais = random.randint(10,34)
             for i in range(r,r+10):
-                grid[xais][i] = self.__coins
+                self.coindict[i] = xais
+                # grid[xais][i] = self.__coins
+        return self.coindict
 
     def create_powerups(self,grid):
 
@@ -71,3 +74,14 @@ class Surroundings:
             for y in range(2):
                 grid[r+x][yais+y] = Back.LIGHTWHITE_EX + 'D' + '\x1b[0m'
         
+
+class Coin:
+
+    def __init__(self):
+        self.coinstatus = 0
+        self.coinfigure = Fore.YELLOW + '$' + '\x1b[0m'
+    
+    def coin_render(self,coindict,grid):
+        for i in coindict:
+            grid[coindict[i]][i] = self.coinfigure
+

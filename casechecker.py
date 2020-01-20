@@ -12,12 +12,16 @@ class CaseCheck:
         self.kills = 0
         self.lives = gv.LIVES
 
-    def coincollection(self,grid,Din):
-        for i in range(5):
-            for j in range(5):
+    def coincollection(self,grid,Din,coindict):
+        for i in range(3):
+            for j in range(3):
                 if grid[Din.x+i][Din.y+j] == Fore.YELLOW + '$' + '\x1b[0m':
-                    self.coins+=1
-                    grid[Din.x+i][Din.y + j] = ' '
+                    try:
+                        del coindict[Din.y + j]
+                        self.coins+=1
+                    except KeyError:
+                        pass
+        return coindict
 
     def gravity(self,grid,Din):
         if(Din.x != 35):

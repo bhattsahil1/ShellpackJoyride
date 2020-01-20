@@ -14,7 +14,7 @@ import numpy as np
 from getinput import NBInput,keypress,clear
 import subprocess
 from colorama import init,Fore,Back
-from surroundings import Surroundings
+from surroundings import Surroundings,Coin
 from bullet import Bullet
 from casechecker import CaseCheck
 from gameinit import GameInit
@@ -34,7 +34,7 @@ c =0
 surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
-surr.create_coins(board.grid)
+coinsdict = surr.create_coins(board.grid)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
 surr.create_magnet(board.grid)
@@ -76,6 +76,10 @@ pygame.init()
 pygame.mixer.music.load('theme.mp3')
 pygame.mixer.music.play(-1)
 
+#coins
+paisa = Coin()
+
+
 os.system('clear')
 print(board.draw_background(c))
 print('\033[H')
@@ -107,7 +111,7 @@ while True:
         cases.gravity(board.grid,Din)
       
     #Function to collect coins on the way during the game
-    cases.coincollection(board.grid,Din)
+    coinsdict = cases.coincollection(board.grid,Din,coinsdict)
     
 
     #Checking for inputs and performing the required function
@@ -180,6 +184,9 @@ while True:
     if cases.drogopowerup(board.grid,Din) == 1:
         setme = 1
     Din.checkpowerup(setme)
+
+    paisa.coin_render(coinsdict,board.grid)
+
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
     print('\033[H')
