@@ -6,6 +6,7 @@ import globalvariables as gv
 import math
 from colorama import Back,Fore
 from bullet import Bullet
+import numpy as np
 
 
 # Note: We use __ after many of the self.__ variables in order to keep them private
@@ -22,32 +23,56 @@ class Rider(Entity):
     def __init__(self, x, y, grid):
         Entity.__init__(self, x, y, grid)
         self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
+        self.__dragonfigure1 = [['/','\\',' ',' ','/','\\',' ',' ','/','\\',' ',' ','O'],[' ',' ','\\','/',' ',' ','\\','/',' ',' ','\\','/',' ']]
+        self.__dragonfigure2 = [[' ',' ','/','\\',' ',' ','/','\\',' ',' ','/','\\',' '],['\\','/',' ',' ','\\','/',' ',' ','\\','/',' ',' ','O']]
         self.__bulletlist = []
         self.shieldstatus = 0
+        self.typestatus = 0
+        self.setme = 0
         # self.__lives = gv.LIVES
        
     def initialplace(self,grid):
-        for i in range(35,38,1):
-            for j in range(0,3,1):
-                grid[i][j] = self.__figure[i-35][j]
+        if self.setme == 0:
+            for i in range(35,38,1):
+                for j in range(0,3,1):
+                    grid[i][j] = self.__figure[i-35][j]
+
+        else:
+            for i in range(36,38,1):
+                for j in range(0,13,1):
+                    grid[i][j] = self.__dragonfigure1[i-36][j]
 
     def din_vanished(self,grid):
-        for i in range(self.x,self.x + 3):
-            for j in range(self.y,self.y + 3):
-                grid[i][j] = " "
+        if self.setme == 0:
+            for i in range(self.x,self.x + 3):
+                for j in range(self.y,self.y + 3):
+                    grid[i][j] = " "
+        else:
+            for i in range(self.x,self.x + 2):
+                for j in range(self.y,self.y + 13):
+                    grid[i][j] = " "
 
     def din_appears(self,grid):
-        for i in range(self.x,self.x + 3):
-            for j in range(self.y,self.y + 3):
-                grid[i][j] = self.__figure[i-self.x][j-self.y]
+        if self.setme == 0:
+            for i in range(self.x,self.x + 3):
+                for j in range(self.y,self.y + 3):
+                    grid[i][j] = self.__figure[i-self.x][j-self.y]
+        else:
+            for i in range(self.x,self.x + 2):
+                for j in range(self.y,self.y + 13):
+                    if np.mod(self.y,2)==0:
+                        grid[i][j] = self.__dragonfigure1[i-self.x][j-self.y]
+                    else:
+                        grid[i][j] = self.__dragonfigure2[i-self.x][j-self.y]
 
     def din_move(self,grid,cin,Din):
 
         #Move to the right
         if(cin==1):
-            Din.din_vanished(grid)
-            Din.y+=1
-            Din.din_appears(grid)
+            if Din.y <=958:
+                Din.din_vanished(grid)
+                Din.y+=1
+                Din.din_appears(grid)
 
         #Move to the left
         if(cin == 2):
@@ -90,3 +115,7 @@ class Rider(Entity):
     def deactivate_shield(self,grid):
         self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
         self.shieldstatus = 0
+
+
+    def checkpowerup(self,setme):
+        self.setme = setme

@@ -62,3 +62,12 @@ class Surroundings:
             yais = random.randint(100,700)
             for y in range(yais,yais+10):
                 grid[10][y] = 'M'
+    
+    def create_drogonpowerup(self,grid):
+
+        r = random.randint(10,30)
+        yais = random.randint(250,650)
+        for x in range(2):
+            for y in range(2):
+                grid[r+x][yais+y] = Back.LIGHTWHITE_EX + 'D' + '\x1b[0m'
+        

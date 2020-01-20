@@ -41,6 +41,11 @@ class CaseCheck:
                 if(grid[Din.x + i][Din.y + j] ==  Back.MAGENTA + "P" + '\x1b[0m'):
                     grid[Din.x + i][Din.y + j] = ' '
                     return 1
+        for i in range(2):
+            for j in range(2):
+                if Din.x - i >= 2 and Din.y - j >=2 and (grid[Din.x-i][Din.y-j]== Back.MAGENTA + "P" + '\x1b[0m' or grid[Din.x-i][Din.y+j]== Back.MAGENTA + "P" + '\x1b[0m') :
+                    grid[Din.x - i][Din.y - j] = ' '
+                    return 1
         return -1
     
     def boundaryconstraints(self,grid,c,Din):
@@ -55,7 +60,7 @@ class CaseCheck:
     
     def magnet(self,grid,Din):
         if grid[10][Din.y+3] == 'M' or grid[10][Din.y+2] == 'M' or grid[10][Din.y+1] == 'M' or grid[10][Din.y] == 'M':
-            if Din.x >16: 
+            if Din.x > 16: 
                 Din.din_vanished(grid)
                 Din.x-=5
                 Din.din_appears(grid)
@@ -64,5 +69,10 @@ class CaseCheck:
                 Din.x+=1
                 Din.din_appears(grid)
         
-
+    def drogopowerup(self,grid,Din):
+        for i in range(0,5,1):
+            for j in range(0,5,1):
+                if grid[Din.x + i][Din.y + j] == Back.LIGHTWHITE_EX + 'D' + '\x1b[0m':
+                    return 1
+        return -1       
         

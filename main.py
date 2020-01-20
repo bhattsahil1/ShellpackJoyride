@@ -21,7 +21,7 @@ from gameinit import GameInit
 from viserion import Viserion
 import printfunctions
 
-#remove this later
+#Remove this later
 import pygame
 
 init()
@@ -38,6 +38,7 @@ surr.create_coins(board.grid)
 surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
 surr.create_magnet(board.grid)
+surr.create_drogonpowerup(board.grid)
 
 #Setting up the Mandalorian and Viserion
 Din = rider.Rider(35, 0, 1)
@@ -57,18 +58,20 @@ count = 0
 z = time.time()
 p = time.time()
 
-
-
 checktime = 0
 powercheck =0 
 t = 0
 f = 0
 dragonballreload = 0
 dragonshootdelay = 0
+endgametime = 0
+timeleft = 1000
+setme = 0
 
-display = printfunctions.PrintMe
+display = printfunctions.PrintMe(1)
 display.title()
-#remove this later
+
+#Remove this later
 pygame.init()
 pygame.mixer.music.load('theme.mp3')
 pygame.mixer.music.play(-1)
@@ -82,9 +85,10 @@ print(' ')
 while True:
 
     #Preparing the top bar for displaying scores,lives,time left etc.
-    
-    print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
-
+    if c < 900:
+        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
+    else:
+        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) + ' ' + Fore.LIGHTGREEN_EX + "TIME REMAINING: " + '\x1b[0m' + str(math.ceil(timeleft)) )  
 
     #For Screen Movement
     if c < 900:
@@ -140,8 +144,8 @@ while True:
 
 
 
-    #Exiting the game in case all lives are lost
-    if math.ceil(cases.lives) == 0:
+    #Exiting the game in case all lives are lost or if the Mandalorian wins
+    if math.ceil(cases.lives) == 0 or math.ceil(timeleft) == 0:
         clear()
         display.losingscenario()
         keys.orTerm()
@@ -153,9 +157,13 @@ while True:
         keys.orTerm()
         exit()
 
+    #Setting up the time counter for the final fight
+    if c<900:
+        endgametime = time.time()
 
     #The Viserion Final Fight section !
     if c>=900:
+        timeleft = 30 -(time.time()-endgametime)
         drogo.dragon_move(board.grid,Din)
         if time.time() - dragonballreload >= 1 :
             drogo.dragon_appu(board.grid,Din)
@@ -169,7 +177,9 @@ while True:
     cases.boundaryconstraints(board.grid,c,Din)
     cases.magnet(board.grid,Din)
     cases.beamcollision(board.grid,Din)
-    
+    if cases.drogopowerup(board.grid,Din) == 1:
+        setme = 1
+    Din.checkpowerup(setme)
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
     print('\033[H')
