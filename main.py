@@ -14,7 +14,7 @@ import numpy as np
 from getinput import NBInput,keypress,clear
 import subprocess
 from colorama import init,Fore,Back
-from surroundings import Surroundings,Coin
+from surroundings import Surroundings,Coin,Firebeam
 from bullet import Bullet
 from casechecker import CaseCheck
 from gameinit import GameInit
@@ -35,7 +35,7 @@ surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
 coinsdict = surr.create_coins(board.grid)
-surr.create_firebeam(board.grid)
+# surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
 surr.create_magnet(board.grid)
 surr.create_drogonpowerup(board.grid)
@@ -79,7 +79,18 @@ pygame.mixer.music.play(-1)
 #coins
 paisa = Coin()
 
+masterlist = surr.create_firebeam(board.grid)
+beamlist = []
 
+for x in masterlist:
+    a = Firebeam(x)
+    a.display_beam(board.grid)
+    beamlist.append(a)
+# print(masterlist)
+
+# print(beamlist)
+
+# time.sleep(10)
 os.system('clear')
 print(board.draw_background(c))
 print('\033[H')
@@ -144,7 +155,9 @@ while True:
     #Constantly firing bullets that are appended to the Mando's bulletlist
     if(time.time()-p > 0.01):
         p = time.time()
-        Din.bullethit(board.grid,drogo)
+        j = Din.bullethit(board.grid,drogo,masterlist)
+        if j!=-1:
+            beamlist[j].destroy_beam()
 
 
 
@@ -185,8 +198,12 @@ while True:
         setme = 1
     Din.checkpowerup(setme)
 
-    paisa.coin_render(coinsdict,board.grid)
 
+
+    for x in beamlist:
+        x.display_beam(board.grid)
+
+    paisa.coin_render(coinsdict,board.grid) 
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
     print('\033[H')

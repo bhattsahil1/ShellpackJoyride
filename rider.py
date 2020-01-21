@@ -92,10 +92,12 @@ class Rider(Entity):
     def shoot(self,Din,grid):
         self.__bulletlist.append(Bullet(Din.x + 1,Din.y + 4,grid))
 
-    def bullethit(self,grid,drogo):
+    def bullethit(self,grid,drogo,masterlist):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
-            shot.bullet_strike(grid)
+            i = shot.bullet_strike(grid,masterlist)
+            if i!=-1:
+                return i
             shot.enemykill(grid,drogo)
             if shot.haveigoneup >= 0 and shot.haveigoneup <= 19:
                 shot.bullet_start(grid)
@@ -107,6 +109,7 @@ class Rider(Entity):
             if shot.x == 37:
                 shot.bullet_vanished(grid)
                 self.__bulletlist.remove(shot)
+        return -1
             
     def activate_shield(self,grid):
         self.__figure = [[Fore.LIGHTRED_EX + '/', '0', '\\' + '\x1b[0m' ], [Fore.LIGHTRED_EX+'|', '-', '|'+'\x1b[0m'], [Fore.LIGHTRED_EX+ '|', '_', '|' +'\x1b[0m']]

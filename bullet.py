@@ -46,16 +46,17 @@ class Bullet():
     
 
     # A function to check whether the bullet strikes anything or not
-    def bullet_strike(self,grid):
+    def bullet_strike(self,grid,masterlist):
 
         for i in range(2):
             for j in range(2):
                 if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m':
+                    tup = (self.x+i,self.y+j)
+                    for x in masterlist:
+                        if tup in x:
+                            return masterlist.index(x)
                     grid[self.x + i][self.y + j] = ' '
-                
-                # if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Fore.YELLOW + '$' + '\x1b[0m':
-                #     grid[self.x+i][self.y+j-1] = Fore.YELLOW + '$' + '\x1b[0m'
-
+        return -1
     def enemykill(self,grid,drogo):
 
         for j in range(10):

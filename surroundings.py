@@ -42,22 +42,41 @@ class Surroundings:
 
     def create_firebeam(self,grid):
 
+        masterlist = []
+        
         for x in range(4):
+            #Diagonal beams
             r = random.randint(8,28)
             yais = random.randint(10,900)
             diff = yais - r
+            a = []
             for i in range(r,r+8):
-                grid[i][i+diff] = self.__firebeam
+                a.append((i,i+diff))
+                # self.diagonaldict[i] = i + diff
+                # grid[i][i+diff] = self.__firebeam
+            masterlist.append(a)
             
+            b = []
+            #Vertical beams
             r = random.randint(10,29)
             yais = random.randint(10,900)
             for i in range(r,r+7):
-                grid[i][yais] = self.__firebeam
+                b.append((i,yais))
+                # self.vertical[i] = yais
+                # grid[i][yais] = self.__firebeam
+            masterlist.append(b)
             
+            c = []
+            #Horizontal beams
             r = random.randint(10,29)
             yais = random.randint(10,900)
             for i in range(yais,yais+15):
-                grid[r][i] = self.__firebeam
+                c.append((r,i))
+                # self.horizon[i] = r
+                # grid[r][i] = self.__firebeam
+            masterlist.append(c)
+            
+        return masterlist
 
     def create_magnet(self,grid):
 
@@ -84,4 +103,19 @@ class Coin:
     def coin_render(self,coindict,grid):
         for i in coindict:
             grid[coindict[i]][i] = self.coinfigure
+         
 
+class Firebeam:
+
+    def __init__(self,leslie):
+        self.leslie = leslie
+        self.hitstatus = 0
+        self.beamfigure = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
+
+    def display_beam(self,grid):
+        # print(self.leslie)
+        for x in self.leslie:
+            grid[x[0]][x[1]] = self.beamfigure
+        
+    def destroy_beam(self):
+        self.beamfigure = ' '
