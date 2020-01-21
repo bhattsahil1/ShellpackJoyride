@@ -9,12 +9,12 @@ from colorama import Fore,Back
 class Bullet():
 
     def __init__(self,x,y,grid):
+        self.__initialy = y
+        self.__initialx = x
         self.x = x
         self.y = y
-        self.initialy = y
-        self.initialx = x
-        self.haveigoneup = 0
-        self.bulletfigure = Fore.LIGHTYELLOW_EX + 'o' + '\x1b[0m'
+        self.__haveigoneup = 0
+        self.bulletfigure = gv.Bullet
 
     def bullet_vanished(self,grid):
         grid[self.x][math.floor(self.y)] = ' '
@@ -30,10 +30,10 @@ class Bullet():
         
     def bullet_start(self,grid):
         
-        if self.x > self.initialx - 20 and self.x > 1:
+        if self.x > self.__initialx - 20 and self.x > 1:
             self.bullet_vanished(grid)
             self.x-=1   
-            self.haveigoneup+=1
+            self.__haveigoneup+=1
             self.bullet_appears(grid)
 
     # A function to simulate gravity in the bullet...enables parabolic trajectory
@@ -50,7 +50,7 @@ class Bullet():
 
         for i in range(2):
             for j in range(2):
-                if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == Back.LIGHTYELLOW_EX + '|' + '\x1b[0m':
+                if self.y + j < 1000 and self.x + i < 40 and grid[self.x + i][self.y + j] == gv.Obstacle:
                     tup = (self.x+i,self.y+j)
                     for x in masterlist:
                         if tup in x:
@@ -64,16 +64,32 @@ class Bullet():
                 for i in range(8):
                     if self.y == drogo.x + i:
                         drogo.lives-=0.01 
-                
+    
+    def bulletgetter(self):
+        coordlist = []
+        coordlist.append(self.x)
+        coordlist.append(self.y)
+        coordlist.append(self.__initialx)
+        coordlist.append(self.__initialy)
+        coordlist.append(self.__haveigoneup)
+        return coordlist
 
 class Ice(Bullet):
 
     def __init__(self,x,y,grid):
         Bullet.__init__(self, x, y, grid)
-        self.bulletfigure = Back.CYAN + 'O' + '\x1b[0m'
+        self.x = x
+        self.y = y
+        self.bulletfigure =gv.Iceball
 
     def ice_move(self,grid):
         self.bullet_vanished(grid)
         if self.y > 10:
             self.y-=5
         self.bullet_appears(grid)
+
+    def sendcoods(self):
+        cood = []
+        cood.append(self.x)
+        cood.append(self.y)
+        return cood

@@ -37,7 +37,3 @@ class Board:
         for row in self.grid:
             strBoard += ''.join(clearlist[c:c + 150]) + '\n'
         return strBoard
-        # for i in range(self.rows):
-        #     for j in range(c,c+200,1):
-        #         print(self.grid[i][j],end='')
-        #     print()

@@ -26,13 +26,11 @@ class Rider(Entity):
         self.__dragonfigure1 = [['/','\\',' ',' ','/','\\',' ',' ','/','\\',' ',' ','O'],[' ',' ','\\','/',' ',' ','\\','/',' ',' ','\\','/',' ']]
         self.__dragonfigure2 = [[' ',' ','/','\\',' ',' ','/','\\',' ',' ','/','\\',' '],['\\','/',' ',' ','\\','/',' ',' ','\\','/',' ',' ','O']]
         self.__bulletlist = []
-        self.shieldstatus = 0
-        self.typestatus = 0
-        self.setme = 0
-        # self.__lives = gv.LIVES
+        self.__shieldstatus = 0
+        self.__setme = 0
        
     def initialplace(self,grid):
-        if self.setme == 0:
+        if self.__setme == 0:
             for i in range(35,38,1):
                 for j in range(0,3,1):
                     grid[i][j] = self.__figure[i-35][j]
@@ -43,7 +41,7 @@ class Rider(Entity):
                     grid[i][j] = self.__dragonfigure1[i-36][j]
 
     def din_vanished(self,grid):
-        if self.setme == 0:
+        if self.__setme == 0:
             for i in range(self.x,self.x + 3):
                 for j in range(self.y,self.y + 3):
                     grid[i][j] = " "
@@ -53,7 +51,7 @@ class Rider(Entity):
                     grid[i][j] = " "
 
     def din_appears(self,grid):
-        if self.setme == 0:
+        if self.__setme == 0:
             for i in range(self.x,self.x + 3):
                 for j in range(self.y,self.y + 3):
                     grid[i][j] = self.__figure[i-self.x][j-self.y]
@@ -95,30 +93,41 @@ class Rider(Entity):
     def bullethit(self,grid,drogo,masterlist):
         for shot in self.__bulletlist:
             shot.bullet_move(grid)
+            a = shot.bulletgetter()
             i = shot.bullet_strike(grid,masterlist)
             if i!=-1:
                 return i
             shot.enemykill(grid,drogo)
-            if shot.haveigoneup >= 0 and shot.haveigoneup <= 19:
+            if a[4] >= 0 and a[4] <= 19:
                 shot.bullet_start(grid)
-            if shot.haveigoneup >= 19 or shot.x <= 1:
+            if a[4] >= 19 or a[0]<=1: #shot.x <= 1:
                 shot.bullet_gravity(grid) 
-            if(math.floor(shot.y - shot.initialy) == 150):
+            # if(math.floor(shot.y - shot.initialy) == 150):
+            if(math.floor(a[1] - a[3]) == 150):
                 shot.bullet_vanished(grid)
-                self.__bulletlist.remove(shot)
-            if shot.x == 37:
+                try:
+                    self.__bulletlist.remove(shot)
+                except ValueError:
+                    pass
+            if a[0] == 37:
                 shot.bullet_vanished(grid)
-                self.__bulletlist.remove(shot)
+                try:
+                    self.__bulletlist.remove(shot)
+                except ValueError:
+                    pass
         return -1
             
     def activate_shield(self,grid):
         self.__figure = [[Fore.LIGHTRED_EX + '/', '0', '\\' + '\x1b[0m' ], [Fore.LIGHTRED_EX+'|', '-', '|'+'\x1b[0m'], [Fore.LIGHTRED_EX+ '|', '_', '|' +'\x1b[0m']]
-        self.shieldstatus = 1
+        self.__shieldstatus = 1
 
     def deactivate_shield(self,grid):
         self.__figure = [['_', '0', '_'], ['|', '-', '|'], ['|', '_', '|']]
-        self.shieldstatus = 0
+        self.__shieldstatus = 0
 
 
     def checkpowerup(self,setme):
-        self.setme = setme
+        self.__setme = setme
+    
+    def getshieldstatus(self):
+        return self.__shieldstatus

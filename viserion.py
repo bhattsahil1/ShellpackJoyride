@@ -14,16 +14,16 @@ class Viserion(Entity):
         self.__blanklist = []
     
     def positionalfunction(self,grid,somelist):
-        e = self.x
-        f = self.y
-        c = f
-        d = e 
+        var1 = self.x
+        var2 = self.y
+        x = var2
+        y = var1 
         for i in range(15):
             for j in range(39):
-                grid[c][d] = somelist[i][j]
-                d+=1
-            d=e
-            c+=1
+                grid[x][y] = somelist[i][j]
+                y+=1
+            y=var1
+            x+=1
  
     def create_viserion(self,grid):
 
@@ -61,18 +61,18 @@ class Viserion(Entity):
     
     def dragon_appu(self,grid,Din):
         self.__iceballs.append(Ice(Din.x,957,grid))
-        # print(self.__iceballs)
         
 
     def dragon_attack(self,grid,Din):
         for shot in self.__iceballs:
             shot.ice_move(grid)
-            if(shot.y <=902):
+            a = shot.sendcoods()
+            if(a[1] <=902):
                 shot.bullet_vanished(grid)
                 self.__iceballs.remove(shot)
             for i in range(5):
                 for j in range(5):
-                    if shot.x == Din.x + i and shot.y == Din.y + j:
+                    if a[0] == Din.x + i and a[1] == Din.y + j:
                         return 1
         return -1
         

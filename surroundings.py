@@ -9,9 +9,7 @@ class Surroundings:
 
         self.__ground = Fore.RED + '=' + '\x1b[0m'
         self.__sky = Fore.BLUE + '+' + '\x1b[0m'
-        self.__firebeam = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
-        # self.__coins = Fore.YELLOW + '$' + '\x1b[0m'
-        self.__powerup = Back.MAGENTA + "P" + '\x1b[0m'
+        self.__powerup = gv.Powerup
         self.coindict = {}
 
     def create_ground(self,grid):
@@ -44,26 +42,22 @@ class Surroundings:
 
         masterlist = []
         
-        for x in range(4):
+        for x in range(8):
             #Diagonal beams
-            r = random.randint(8,28)
+            r = random.randint(8,23)
             yais = random.randint(10,900)
             diff = yais - r
             a = []
-            for i in range(r,r+8):
+            for i in range(r,r+14):
                 a.append((i,i+diff))
-                # self.diagonaldict[i] = i + diff
-                # grid[i][i+diff] = self.__firebeam
             masterlist.append(a)
             
             b = []
             #Vertical beams
-            r = random.randint(10,29)
+            r = random.randint(10,24)
             yais = random.randint(10,900)
-            for i in range(r,r+7):
+            for i in range(r,r+13):
                 b.append((i,yais))
-                # self.vertical[i] = yais
-                # grid[i][yais] = self.__firebeam
             masterlist.append(b)
             
             c = []
@@ -72,18 +66,17 @@ class Surroundings:
             yais = random.randint(10,900)
             for i in range(yais,yais+15):
                 c.append((r,i))
-                # self.horizon[i] = r
-                # grid[r][i] = self.__firebeam
             masterlist.append(c)
             
         return masterlist
 
     def create_magnet(self,grid):
-
-        for x in range(3):
+        magnetlist = []
+        for x in range(2):
             yais = random.randint(100,700)
-            for y in range(yais,yais+10):
-                grid[10][y] = 'M'
+            xais = random.randint(10,32)
+            magnetlist.append((xais,yais))
+        return magnetlist
     
     def create_drogonpowerup(self,grid):
 
@@ -91,31 +84,44 @@ class Surroundings:
         yais = random.randint(250,650)
         for x in range(2):
             for y in range(2):
-                grid[r+x][yais+y] = Back.LIGHTWHITE_EX + 'D' + '\x1b[0m'
+                grid[r+x][yais+y] = gv.DragonPowerUp
         
 
 class Coin:
 
-    def __init__(self):
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
         self.coinstatus = 0
-        self.coinfigure = Fore.YELLOW + '$' + '\x1b[0m'
+        self.__coinfigure = gv.Coin
     
     def coin_render(self,coindict,grid):
         for i in coindict:
-            grid[coindict[i]][i] = self.coinfigure
+            grid[coindict[i]][i] = self.__coinfigure
          
 
 class Firebeam:
 
-    def __init__(self,leslie):
-        self.leslie = leslie
-        self.hitstatus = 0
-        self.beamfigure = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
+    def __init__(self,coordinatelist):
+        self.coordinatelist = coordinatelist
+        self.__beamfigure = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
 
     def display_beam(self,grid):
-        # print(self.leslie)
-        for x in self.leslie:
-            grid[x[0]][x[1]] = self.beamfigure
+        # print(self.coordinatelist)
+        for x in self.coordinatelist:
+            grid[x[0]][x[1]] = self.__beamfigure
         
     def destroy_beam(self):
-        self.beamfigure = ' '
+        self.__beamfigure = ' '
+
+class Magnet:
+
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.__magnetfigure = Back.RED + 'M' + '\x1b[0m'
+
+    def display_magnet(self,grid):
+        for i in range(self.x,self.x+5,1):
+            grid[i][self.y] = self.__magnetfigure
+    

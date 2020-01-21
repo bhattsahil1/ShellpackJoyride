@@ -14,15 +14,14 @@ import numpy as np
 from getinput import NBInput,keypress,clear
 import subprocess
 from colorama import init,Fore,Back
-from surroundings import Surroundings,Coin,Firebeam
+from surroundings import Surroundings,Coin,Firebeam,Magnet
 from bullet import Bullet
 from casechecker import CaseCheck
-from gameinit import GameInit
 from viserion import Viserion
 import printfunctions
 
 #Remove this later
-import pygame
+# import pygame
 
 init()
 
@@ -37,7 +36,7 @@ surr.create_sky(board.grid)
 coinsdict = surr.create_coins(board.grid)
 # surr.create_firebeam(board.grid)
 surr.create_powerups(board.grid)
-surr.create_magnet(board.grid)
+magnetlist = surr.create_magnet(board.grid)
 surr.create_drogonpowerup(board.grid)
 
 #Setting up the Mandalorian and Viserion
@@ -57,7 +56,7 @@ y = time.time()
 count = 0
 z = time.time()
 p = time.time()
-
+rs = time.time()
 checktime = 0
 powercheck =0 
 t = 0
@@ -72,25 +71,32 @@ display = printfunctions.PrintMe(1)
 display.title()
 
 #Remove this later
-pygame.init()
-pygame.mixer.music.load('theme.mp3')
-pygame.mixer.music.play(-1)
+# pygame.init()
+# pygame.mixer.music.load('theme.mp3')
+# pygame.mixer.music.play(-1)
 
 #coins
-paisa = Coin()
+coinlist = []
+for x in coinsdict:
+    coinlist.append(Coin(coinsdict[x],x))
+
+
 
 masterlist = surr.create_firebeam(board.grid)
 beamlist = []
+magnetlist2 = []
+for x in magnetlist:
+    magnetlist2.append(Magnet(x[0],x[1]))
+
+for x in coinlist:
+    x.coin_render(coinsdict,board.grid)
+
 
 for x in masterlist:
     a = Firebeam(x)
     a.display_beam(board.grid)
     beamlist.append(a)
-# print(masterlist)
 
-# print(beamlist)
-
-# time.sleep(10)
 os.system('clear')
 print(board.draw_background(c))
 print('\033[H')
@@ -101,9 +107,9 @@ while True:
 
     #Preparing the top bar for displaying scores,lives,time left etc.
     if c < 900:
-        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
+        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.returnlives())) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) )  
     else:
-        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.lives)) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) + ' ' + Fore.LIGHTGREEN_EX + "TIME REMAINING: " + '\x1b[0m' + str(math.ceil(timeleft)) )  
+        print(Fore.LIGHTGREEN_EX + "Coins: " + '\x1b[0m' + str(cases.coins) + Fore.LIGHTGREEN_EX + "  Lives: " + '\x1b[0m' + str(math.ceil(cases.returnlives())) + ' ' + Fore.LIGHTGREEN_EX + "Enemy Lives: " + '\x1b[0m' + str(math.ceil(drogo.lives)) + ' ' + Fore.LIGHTGREEN_EX + "TIME REMAINING: " + '\x1b[0m' + str(math.ceil(timeleft)) + ' ')  
 
     #For Screen Movement
     if c < 900:
@@ -158,11 +164,14 @@ while True:
         j = Din.bullethit(board.grid,drogo,masterlist)
         if j!=-1:
             beamlist[j].destroy_beam()
+    if(time.time()-rs > 0.05):
+        rs = time.time()
+        cases.magnet(board.grid,Din,c)
 
 
 
     #Exiting the game in case all lives are lost or if the Mandalorian wins
-    if math.ceil(cases.lives) == 0 or math.ceil(timeleft) == 0:
+    if math.ceil(cases.returnlives()) == 0 or math.ceil(timeleft) == 0:
         clear()
         display.losingscenario()
         keys.orTerm()
@@ -187,23 +196,29 @@ while True:
             dragonballreload = time.time()
         if time.time() - dragonshootdelay >= 0.1:
             if drogo.dragon_attack(board.grid,Din) == 1:
-                cases.lives -=1
+                cases.reducelife()
             dragonshootdelay = time.time()
     
     #Obeying boundary constraints and simulating magnets present along the way
     cases.boundaryconstraints(board.grid,c,Din)
-    cases.magnet(board.grid,Din)
-    cases.beamcollision(board.grid,Din)
+    qs = cases.beamcollision(board.grid,Din,masterlist)
+    if qs!=-1:
+            beamlist[qs].destroy_beam()
+            # masterlist.remove(masterlist[qs])
+    cases.livescheck(board.grid,Din)
     if cases.drogopowerup(board.grid,Din) == 1:
         setme = 1
     Din.checkpowerup(setme)
 
 
-
+    #Rendering beams,coins and magnet on screen
     for x in beamlist:
         x.display_beam(board.grid)
-
-    paisa.coin_render(coinsdict,board.grid) 
+    for x in magnetlist2:
+        x.display_magnet(board.grid)
+    for x in coinlist:
+        x.coin_render(coinsdict,board.grid)
+    
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))
     print('\033[H')
