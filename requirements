@@ -1,10 +1,24 @@
-Implement Firebeam collision and changing lives.
-Implement bullets and shoot() function
-Make variables private in the files
-Implement magnet to attract the rider
+ OOPS Concepts used:
+ Inheritance - eg: Rider and Viserion inherit from Entity class, Iceball inherits from Bullet class
+ Polymorphism - eg: Iceball overrides the bulletfigure characteristic in Bullet
+ Encapsulation - Have used a class and object-based approach for all the functionality used
+ Abstraction - eg: Din.move(), Beam.destroy() etc.
 
-Implement Boss enemy
+ Movement :
+ Player moves depending on the key pressed and there is also a gravity-like effect.
 
-Make the initial print normal(currently glitches sometimes by displaying two lines)
+ Background and scenery:
+ Ground,sky and other objects like coins,powerups have been displayed in scenery
 
-Implement speed boost and shield
+ Obstacles:
+ Fire beams and magnets have been set along the way.
+
+ Powerups:
+ There is a powerup to speed-up the game and also a shield to protect the player.
+
+ Boss Enemy:
+ The boss enemy must be defeated in order to win the game
+
+ Bonus:
+ Have used colors for different components in the game
+ Drogon-powerup feature

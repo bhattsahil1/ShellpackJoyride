@@ -7,15 +7,15 @@ class Surroundings:
 
     def __init__(self):
 
-        self.__ground = Fore.RED + '=' + '\x1b[0m'
-        self.__sky = Fore.BLUE + '+' + '\x1b[0m'
+        self.__ground = gv.Ground
+        self.__sky = gv.Sky
         self.__powerup = gv.Powerup
         self.coindict = {}
 
     def create_ground(self,grid):
         for x in range(gv.MAX_Y):
             grid[gv.MAX_X-1][x]= self.__ground
-            grid[gv.MAX_X-2][x] = Back.GREEN + ' ' + '\x1b[0m'
+            grid[gv.MAX_X-2][x] = gv.Grass
 
     def create_sky(self,grid):
         for x in range(gv.MAX_Y):
@@ -32,11 +32,13 @@ class Surroundings:
         return self.coindict
 
     def create_powerups(self,grid):
-
+        poweruplist = []
         for x in range(10):
             r = random.randint(3,34)
             yais = random.randint(5,900)
-            grid[r][yais] = self.__powerup
+            poweruplist.append((r,yais))
+        return poweruplist
+            # grid[r][yais] = self.__powerup
 
     def create_firebeam(self,grid):
 
@@ -107,7 +109,6 @@ class Firebeam:
         self.__beamfigure = Back.LIGHTYELLOW_EX + '|' + '\x1b[0m'
 
     def display_beam(self,grid):
-        # print(self.coordinatelist)
         for x in self.coordinatelist:
             grid[x[0]][x[1]] = self.__beamfigure
         
@@ -125,3 +126,13 @@ class Magnet:
         for i in range(self.x,self.x+5,1):
             grid[i][self.y] = self.__magnetfigure
     
+class PowerUp:
+
+    def __init__(self,x,y):
+        self.x = x
+        self.y = y
+        self.__powerfigure = gv.Powerup
+
+    def display_powerup(self,poweruplist,grid):
+        for i in poweruplist:
+            grid[i[0]][i[1]] = self.__powerfigure

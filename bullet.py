@@ -11,9 +11,9 @@ class Bullet():
     def __init__(self,x,y,grid):
         self.__initialy = y
         self.__initialx = x
+        self.__haveigoneup = 0
         self.x = x
         self.y = y
-        self.__haveigoneup = 0
         self.bulletfigure = gv.Bullet
 
     def bullet_vanished(self,grid):

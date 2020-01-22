@@ -14,7 +14,7 @@ import numpy as np
 from getinput import NBInput,keypress,clear
 import subprocess
 from colorama import init,Fore,Back
-from surroundings import Surroundings,Coin,Firebeam,Magnet
+from surroundings import Surroundings,Coin,Firebeam,Magnet,PowerUp
 from bullet import Bullet
 from casechecker import CaseCheck
 from viserion import Viserion
@@ -34,8 +34,7 @@ surr = Surroundings()
 surr.create_ground(board.grid)
 surr.create_sky(board.grid)
 coinsdict = surr.create_coins(board.grid)
-# surr.create_firebeam(board.grid)
-surr.create_powerups(board.grid)
+poweruplist = surr.create_powerups(board.grid)
 magnetlist = surr.create_magnet(board.grid)
 surr.create_drogonpowerup(board.grid)
 
@@ -75,16 +74,22 @@ display.title()
 # pygame.mixer.music.load('theme.mp3')
 # pygame.mixer.music.play(-1)
 
-#coins
+#Coins,firebeam,powerup and magnet setup
 coinlist = []
 for x in coinsdict:
     coinlist.append(Coin(coinsdict[x],x))
 
-
-
 masterlist = surr.create_firebeam(board.grid)
 beamlist = []
 magnetlist2 = []
+boostlist = []
+
+for x in poweruplist:
+    boostlist.append(PowerUp(x[0],x[1]))
+
+for x in boostlist:
+    x.display_powerup(poweruplist,board.grid)
+
 for x in magnetlist:
     magnetlist2.append(Magnet(x[0],x[1]))
 
@@ -211,13 +216,15 @@ while True:
     Din.checkpowerup(setme)
 
 
-    #Rendering beams,coins and magnet on screen
+    #Rendering beams,coins,powerups and magnet on screen
     for x in beamlist:
         x.display_beam(board.grid)
     for x in magnetlist2:
         x.display_magnet(board.grid)
     for x in coinlist:
         x.coin_render(coinsdict,board.grid)
+    for x in boostlist:
+        x.display_powerup(poweruplist,board.grid)
     
     #Printing the screen and then clearing it up to reprint for the next instance of the gameplay
     print(board.draw_background(c))

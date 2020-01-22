@@ -23,7 +23,7 @@ class CaseCheck:
         return coindict
 
     def gravity(self,grid,Din):
-        if(Din.x != 35):
+        if Din.x != 35:
             Din.din_vanished(grid)
             Din.x+=1
             Din.din_appears(grid)

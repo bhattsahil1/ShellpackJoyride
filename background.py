@@ -7,15 +7,15 @@ from colorama import Fore,Back
 class Board:
 
     def __init__(self,rows,columns):
-        self.rows = rows
-        self.columns = columns
+        self.__rows = rows
+        self.__columns = columns
         self.__coins = 0
         self.grid = []
 
         # self.grid = np.array([[' ' for col in range(gv.MAX_Y)]for row in range(rows)])
         # self.grid = [[' ' for col in range(gv.MAX_Y)]for row in range(rows)]   
         
-        for i in range(self.rows):
+        for i in range(self.__rows):
             self.new = []
             for j in range(gv.MAX_Y):
                 self.new.append(" ")
