@@ -20,8 +20,7 @@ from casechecker import CaseCheck
 from viserion import Viserion
 import printfunctions
 
-#Remove this later
-# import pygame
+import pygame
 
 init()
 
@@ -69,10 +68,9 @@ setme = 0
 display = printfunctions.PrintMe(1)
 display.title()
 
-#Remove this later
-# pygame.init()
-# pygame.mixer.music.load('theme.mp3')
-# pygame.mixer.music.play(-1)
+pygame.init()
+pygame.mixer.music.load('theme.mp3')
+pygame.mixer.music.play(-1)
 
 #Coins,firebeam,powerup and magnet setup
 coinlist = []
