@@ -1,9 +1,16 @@
-# Jetpack Joyride on Terminal
+# Shellpack Joyride on Terminal  
+Shellpack Joyride is a terminal-based Python game, inspired from *Jetpack Joyride*.  
+![Gameplay.png](https://github.com/bhattsahil1/ShellpackJoyride/blob/master/gameplay.png?raw=true)  
+
     
 # Instructions
 
-* Launch the game via terminal command python3 main.py
-* Objective of the game is to defeat the enemy within the given time(40 seconds) and within the limited lives(6).
+* Launch the game 
+```
+python3 main.py
+```
+
+* Objective of the game is to defeat the enemy within the given time(40 seconds) and within the limited number of lives(6).
 
 # Controls
 
@@ -19,12 +26,15 @@
 * Powerups to speed up the game and also to change from normal player mode to Dragon-mode have been included.
 * The enemy dragon replicates the movement of the player along the y-axis,while constantly firing ice-balls at it. 
 
-# Scoring
+# Scoring and Objectives
 
 * Keep collecting coins along the way
+* Destroy firebeams, collect powerups.
 * Win the game by killing the enemy dragon using bullets
+* Wait for the final message from none other than Master Yoda.  
 
 # Requirements
 
 * Python3
 * Colorama
+* Pygame (*Only for background music*)

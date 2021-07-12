@@ -69,7 +69,7 @@ display = printfunctions.PrintMe(1)
 display.title()
 
 pygame.init()
-pygame.mixer.music.load('theme.mp3')
+pygame.mixer.music.load('theme.wav')
 pygame.mixer.music.play(-1)
 
 #Coins,firebeam,powerup and magnet setup
